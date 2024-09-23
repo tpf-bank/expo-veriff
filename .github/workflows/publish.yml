@@ -20,12 +20,6 @@ jobs:
       - name: Authenticate to GitHub Packages
         run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm test  # Опционально, можете удалить или изменить
-
       - name: Publish to GitHub Packages
         run: npm publish
         env:
