@@ -20,6 +20,9 @@ jobs:
       - name: Authenticate to GitHub Packages
         run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
 
+      - name: Expo cli
+        run: npm install --global expo-cli
+
       - name: Publish to GitHub Packages
         run: npm publish
         env:
