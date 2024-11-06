@@ -18,11 +18,11 @@ public class ExpoVeriffModule: Module {
 
 
             let locale = Locale(identifier: "en")
+            let configuration = Veriff.VeriffSdk.Configuration(languageLocale: locale)
             let veriff = Veriff.VeriffSdk.shared
             veriff.delegate = self
-            veriff.languageLocale = locale
             veriff.implementationType = .reactNative
-            veriff.startAuthentication(sessionUrl: sessionUrl)
+            veriff.startAuthentication(sessionUrl: sessionUrl, configuration: configuration)
         }
     }
     
