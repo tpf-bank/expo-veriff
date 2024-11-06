@@ -15,9 +15,12 @@ public class ExpoVeriffModule: Module {
         
         DispatchQueue.main.async {
             self.promise = p
-            
+
+
+            let locale = Locale(identifier: "en")
             let veriff = Veriff.VeriffSdk.shared
             veriff.delegate = self
+            veriff.languageLocale = locale
             veriff.implementationType = .reactNative
             veriff.startAuthentication(sessionUrl: sessionUrl)
         }

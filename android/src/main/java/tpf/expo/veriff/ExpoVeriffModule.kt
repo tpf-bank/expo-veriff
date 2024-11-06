@@ -8,6 +8,7 @@ import com.veriff.Sdk.createLaunchIntent
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import java.util.Locale
 
 class ExpoVeriffModule : Module() {
   private var callbackResult: Promise? = null;
@@ -27,8 +28,11 @@ class ExpoVeriffModule : Module() {
       return
     }
 
-    val configBuilder = Configuration.Builder()
-    val intent = createLaunchIntent(activity, sessionUrl, configBuilder.build())
+    val appLocale = Locale.ENGLISH
+    val configuration = Configuration.Builder()
+            .locale(appLocale)
+            .build()
+    val intent = createLaunchIntent(activity, sessionUrl, configuration)
     activity.startActivityForResult(intent, REQUEST_CODE)
     callbackResult = p
   }
