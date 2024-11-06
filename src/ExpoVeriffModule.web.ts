@@ -5,6 +5,7 @@ export default {
       return new Promise((resolve, reject) => {
         createVeriffFrame({
           url: token,
+          lang: 'en',
           onEvent: (event: MESSAGES) => {
             switch (event) {
               case MESSAGES.FINISHED:
