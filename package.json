@@ -1,6 +1,6 @@
 {
   "name": "@tpf-bank/expo-veriff",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "My new module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "homepage": "https://tpf.co#readme",
   "dependencies": {
-    "@veriff/incontext-sdk": "^2.2.1"
+    "@veriff/incontext-sdk": "^2.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.25",
