@@ -11,8 +11,11 @@ export default {
               case MESSAGES.FINISHED:
                 resolve(token);
                 break;
+              case MESSAGES.CANCELED:
+                reject(MESSAGES)
+                break;
               default:
-                reject(`${MESSAGES}`)
+                break;
             }
           }
         })

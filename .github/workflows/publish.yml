@@ -21,7 +21,7 @@ jobs:
         run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Deps
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Expo cli
         run: npm install --global expo-cli
