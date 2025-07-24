@@ -11,30 +11,41 @@ import expo.modules.kotlin.modules.ModuleDefinition
 import java.util.Locale
 
 class ExpoVeriffModule : Module() {
-  private var callbackResult: Promise? = null;
+  private var callbackResult: Promise? = null
+  private var isSessionActive = false
 
   fun launchVeriff(
     sessionUrl: String,
     p: Promise
   ) {
-    if (callbackResult != null) {
-      p.reject("0", "ALREADY_CREATED", null)
+    if (callbackResult != null || isSessionActive) {
+      p.reject("ALREADY_CREATED", "Veriff session is already active", null)
       return
     }
 
     val activity: Activity? = appContext.currentActivity
     if (activity == null) {
-      p.reject("0", "ACTIVITY_NOT_FOUND", null)
+      p.reject("ACTIVITY_NOT_FOUND", "Activity not found", null)
       return
     }
 
-    val appLocale = Locale.ENGLISH
-    val configuration = Configuration.Builder()
-            .locale(appLocale)
-            .build()
-    val intent = createLaunchIntent(activity, sessionUrl, configuration)
-    activity.startActivityForResult(intent, REQUEST_CODE)
-    callbackResult = p
+    try {
+      val appLocale = Locale.ENGLISH
+      val configuration = Configuration.Builder()
+              .locale(appLocale)
+              .build()
+      val intent = createLaunchIntent(activity, sessionUrl, configuration)
+      activity.startActivityForResult(intent, REQUEST_CODE)
+      callbackResult = p
+      isSessionActive = true
+    } catch (e: Exception) {
+      p.reject("SETUP_ERROR", "Failed to start Veriff session: ${e.message}", null)
+    }
+  }
+
+  private fun cleanup() {
+    callbackResult = null
+    isSessionActive = false
   }
 
   override fun definition() = ModuleDefinition {
@@ -46,22 +57,41 @@ class ExpoVeriffModule : Module() {
 
     OnActivityResult { _, payload ->
       if (payload.requestCode == REQUEST_CODE) {
-        val veriffResult = Result.fromResultIntent(payload.data)!!
+        try {
+          val veriffResult = Result.fromResultIntent(payload.data)
 
-        when (veriffResult.status) {
-          Result.Status.DONE -> {
-            val token = payload.data?.getStringExtra(GeneralConfig.INTENT_EXTRA_SESSION_URL)
-            callbackResult?.resolve(token)
+          when (veriffResult?.status) {
+            Result.Status.DONE -> {
+              val token = payload.data?.getStringExtra(GeneralConfig.INTENT_EXTRA_SESSION_URL)
+              callbackResult?.resolve(token)
+            }
+            Result.Status.CANCELED -> {
+              callbackResult?.reject("CANCELED", "User canceled the verification", null)
+            }
+            Result.Status.ERROR -> {
+              val errorMessage = when (veriffResult.error) {
+                Result.Error.CAMERA_UNAVAILABLE -> "Camera is not available or permission denied"
+                Result.Error.MICROPHONE_UNAVAILABLE -> "Microphone is not available or permission denied"
+                Result.Error.NETWORK_ERROR -> "Network connection error occurred"
+                Result.Error.SERVER_ERROR -> "Server error occurred"
+                Result.Error.UPLOAD_ERROR -> "Upload error occurred"
+                Result.Error.VIDEO_FAILED -> "Video processing failed"
+                Result.Error.LOCAL_ERROR -> "Local error occurred"
+                Result.Error.DEPRECATED_SDK_VERSION -> "Veriff SDK version is not supported"
+                Result.Error.UNKNOWN -> "An unknown error occurred during verification"
+                else -> "An unknown error occurred during verification"
+              }
+              callbackResult?.reject(veriffResult.error?.name ?: "UNKNOWN_ERROR", errorMessage, null)
+            }
+            null -> {
+              callbackResult?.reject("UNKNOWN_ERROR", "Failed to process Veriff result", null)
+            }
           }
-          Result.Status.CANCELED -> {
-            callbackResult?.reject("0", "CANCELED", null)
-          }
-          Result.Status.ERROR -> {
-            callbackResult?.reject(veriffResult.status.name, veriffResult.error?.name, null)
-          }
+        } catch (e: Exception) {
+          callbackResult?.reject("UNKNOWN_ERROR", "Failed to process Veriff result: ${e.message}", null)
+        } finally {
+          cleanup()
         }
-
-        callbackResult = null
       }
     }
   }
