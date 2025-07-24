@@ -1,8 +1,8 @@
 {
   "name": "@tpf-bank/expo-veriff",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "homepage": "https://github.com/tpf/expo-veriff",
-  "description": "Veriff SDK wrapper for Expo",
+  "description": "Expo module wrapper for Veriff SDK, providing KYC (Know Your Customer) identity verification capabilities for React Native applications",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {

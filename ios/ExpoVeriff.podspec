@@ -9,10 +9,10 @@ Pod::Spec.new do |s|
   s.description    = package['description']
   s.license        = package['license']
   s.author         = package['author']
-  s.source = { git: 'https://github.com/tpf/expo-veriff.git', tag: s.version.to_s }
+  s.homepage       = package['homepage']
   s.platforms      = { :ios => '15.0', :tvos => '15.0' }
   s.swift_version  = '5.9'
-  s.source         = { git: 'https://tpf.co' }
+  s.source = { git: 'https://github.com/tpf/expo-veriff.git', tag: s.version.to_s }
   s.static_framework = true
 
   s.dependency 'ExpoModulesCore'

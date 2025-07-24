@@ -29,4 +29,4 @@ function withVeriff(expoConfig) {
   return withPlugins(expoConfig, [withVeriffProjectGradle]);
 }
 
-exports.default = createRunOncePlugin(withVeriff, "expo-veriff", "0.1.10");
+exports.default = createRunOncePlugin(withVeriff, "expo-veriff", "0.1.11");
