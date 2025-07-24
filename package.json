@@ -1,6 +1,7 @@
 {
   "name": "@tpf-bank/expo-veriff",
-  "version": "0.1.9",
+  "version": "0.1.10",
+  "homepage": "https://github.com/tpf/expo-veriff",
   "description": "Veriff SDK wrapper for Expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
