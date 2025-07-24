@@ -1,7 +1,7 @@
 {
   "name": "@tpf-bank/expo-veriff",
-  "version": "0.1.7",
-  "description": "My new module",
+  "version": "0.1.9",
+  "description": "Veriff SDK wrapper for Expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -11,34 +11,32 @@
     "test": "expo-module test",
     "prepare": "expo-module prepare",
     "prepublishOnly": "expo-module prepublishOnly",
-    "expo-module": "expo-module",
-    "open:ios": "xed example/ios",
-    "open:android": "open -a \"Android Studio\" example/android"
+    "expo-module": "expo-module"
   },
   "keywords": [
     "react-native",
     "expo",
     "expo-veriff",
-    "ExpoVeriff"
+    "veriff",
+    "kyc"
   ],
-  "repository": "https://tpf.co",
+  "repository": "https://github.com/tpf/expo-veriff",
   "bugs": {
-    "url": "https://tpf.co/issues"
+    "url": "https://github.com/tpf/expo-veriff/issues"
   },
-  "author": "tpf <tpf@tpf.co> ()",
+  "author": "TPF <support@tpf.co>",
   "license": "MIT",
-  "homepage": "https://tpf.co#readme",
   "dependencies": {
+    "expo-modules-core": "~2.1.0",
     "@veriff/incontext-sdk": "^2.4.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.25",
-    "expo-module-scripts": "^3.5.2",
-    "expo-modules-core": "^1.12.20"
+    "@types/react": "^19.0.0",
+    "expo-module-scripts": "^4.0.0",
+    "typescript": "^5.3.0"
   },
   "peerDependencies": {
     "expo": "*",
-    "react": "*",
-    "react-native": "*"
+    "react": ">=18.0.0"
   }
 }
