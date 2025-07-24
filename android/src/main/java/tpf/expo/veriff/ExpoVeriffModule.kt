@@ -69,19 +69,21 @@ class ExpoVeriffModule : Module() {
               callbackResult?.reject("CANCELED", "User canceled the verification", null)
             }
             Result.Status.ERROR -> {
-              val errorMessage = when (veriffResult.error) {
-                Result.Error.CAMERA_UNAVAILABLE -> "Camera is not available or permission denied"
-                Result.Error.MICROPHONE_UNAVAILABLE -> "Microphone is not available or permission denied"
-                Result.Error.NETWORK_ERROR -> "Network connection error occurred"
-                Result.Error.SERVER_ERROR -> "Server error occurred"
-                Result.Error.UPLOAD_ERROR -> "Upload error occurred"
-                Result.Error.VIDEO_FAILED -> "Video processing failed"
-                Result.Error.LOCAL_ERROR -> "Local error occurred"
-                Result.Error.DEPRECATED_SDK_VERSION -> "Veriff SDK version is not supported"
-                Result.Error.UNKNOWN -> "An unknown error occurred during verification"
+              // Generic error handling without relying on specific enum values
+              val errorCode = veriffResult.error?.name ?: "UNKNOWN_ERROR"
+              val errorMessage = when (errorCode) {
+                "CAMERA_UNAVAILABLE" -> "Camera is not available or permission denied"
+                "MICROPHONE_UNAVAILABLE" -> "Microphone is not available or permission denied"
+                "NETWORK_ERROR" -> "Network connection error occurred"
+                "SERVER_ERROR" -> "Server error occurred"
+                "UPLOAD_ERROR" -> "Upload error occurred"
+                "VIDEO_FAILED" -> "Video processing failed"
+                "LOCAL_ERROR" -> "Local error occurred"
+                "DEPRECATED_SDK_VERSION" -> "Veriff SDK version is not supported"
+                "UNKNOWN" -> "An unknown error occurred during verification"
                 else -> "An unknown error occurred during verification"
               }
-              callbackResult?.reject(veriffResult.error?.name ?: "UNKNOWN_ERROR", errorMessage, null)
+              callbackResult?.reject(errorCode, errorMessage, null)
             }
             null -> {
               callbackResult?.reject("UNKNOWN_ERROR", "Failed to process Veriff result", null)
