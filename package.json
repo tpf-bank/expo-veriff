@@ -1,6 +1,6 @@
 {
   "name": "@tpf-bank/expo-veriff",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "homepage": "https://github.com/tpf/expo-veriff",
   "description": "Expo module wrapper for Veriff SDK, providing KYC (Know Your Customer) identity verification capabilities for React Native applications",
   "main": "build/index.js",
@@ -27,17 +27,18 @@
   },
   "author": "TPF <support@tpf.co>",
   "license": "MIT",
+  "peerDependencies": {
+    "expo": "*",
+    "react": ">=18.0.0",
+    "expo-modules-core": ">=3.0.0"
+  },
   "dependencies": {
-    "expo-modules-core": "~2.1.0",
     "@veriff/incontext-sdk": "^2.4.0"
   },
   "devDependencies": {
+    "expo-modules-core": "3.0.24",
     "@types/react": "^19.0.0",
     "expo-module-scripts": "^4.0.0",
     "typescript": "^5.3.0"
-  },
-  "peerDependencies": {
-    "expo": "*",
-    "react": ">=18.0.0"
   }
 }

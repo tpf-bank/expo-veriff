@@ -99,4 +99,4 @@ function withVeriff(expoConfig) {
   ]);
 }
 
-exports.default = createRunOncePlugin(withVeriff, "expo-veriff", "0.1.13");
+exports.default = createRunOncePlugin(withVeriff, "expo-veriff", "0.1.14");
