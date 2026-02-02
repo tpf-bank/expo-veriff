@@ -15,6 +15,10 @@ public class ExpoVeriffModule: Module {
             return
         }
         
+        // Set flags IMMEDIATELY to prevent race condition
+        self.isSessionActive = true
+        self.promise = p
+        
         // Check camera permissions first
         checkCameraPermissions { [weak self] hasPermission in
             guard let self = self else { return }
@@ -22,14 +26,12 @@ public class ExpoVeriffModule: Module {
             if !hasPermission {
                 DispatchQueue.main.async {
                     p.reject("CAMERA_PERMISSION_DENIED", "Camera permission is required for Veriff")
+                    self.cleanup()
                 }
                 return
             }
             
             DispatchQueue.main.async {
-                self.promise = p
-                self.isSessionActive = true
-
                 let locale = Locale(identifier: "en")
                 let configuration = Veriff.VeriffSdk.Configuration(languageLocale: locale)
                 let veriff = Veriff.VeriffSdk.shared

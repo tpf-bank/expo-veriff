@@ -29,6 +29,10 @@ class ExpoVeriffModule : Module() {
       return
     }
 
+    // Set flags BEFORE starting activity to prevent race condition
+    callbackResult = p
+    isSessionActive = true
+
     try {
       val appLocale = Locale.ENGLISH
       val configuration = Configuration.Builder()
@@ -36,10 +40,9 @@ class ExpoVeriffModule : Module() {
               .build()
       val intent = createLaunchIntent(activity, sessionUrl, configuration)
       activity.startActivityForResult(intent, REQUEST_CODE)
-      callbackResult = p
-      isSessionActive = true
     } catch (e: Exception) {
       p.reject("SETUP_ERROR", "Failed to start Veriff session: ${e.message}", null)
+      cleanup()
     }
   }
 
