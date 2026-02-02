@@ -20,8 +20,19 @@ export async function launchVeriff(token: string): Promise<string> {
   }
 }
 
+// Public reset function (iOS only, Android no-op)
+export function resetVeriff(): void {
+  try {
+    ExpoVeriffModule.resetVeriff();
+  } catch (error) {
+    // Silently fail if method doesn't exist (Android doesn't need it)
+    console.log('[Veriff] Reset not available or not needed on this platform');
+  }
+}
+
 export { VeriffError } from "./ExpoVeriffModule";
 
 export default {
-  launchVeriff
+  launchVeriff,
+  resetVeriff
 };

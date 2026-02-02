@@ -76,6 +76,11 @@ public class ExpoVeriffModule: Module {
     AsyncFunction("launchVeriff") { (sessionUrl: String, p: Promise) in
         self.launchVeriff(sessionUrl: sessionUrl, p: p)
     }
+    
+    // Public reset method for cleanup on back navigation
+    Function("resetVeriff") {
+        self.cleanup()
+    }
   }
 }
 
