@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 group = 'tpf.expo.veriff'
-version = '0.1.16'
+version = '0.1.17'
 
 def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
 apply from: expoModulesCorePlugin
@@ -35,7 +35,7 @@ android {
   namespace "tpf.expo.veriff"
   defaultConfig {
     versionCode 1
-    versionName "0.1.16"
+    versionName "0.1.17"
   }
   lintOptions {
     abortOnError false
@@ -50,5 +50,5 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.veriff:veriff-library:7.0.1'
+  implementation 'com.veriff:veriff-library:7.15.0'
 }
